@@ -1,0 +1,1601 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  
+  
+
+<meta name="citation_title" content="Downloading Web Pages with Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="https://programminghistorian.org/en/lessons/working-with-web-pages" />
+
+  
+
+  
+  <!--https://dev.twitter.com/cards/-->
+
+
+
+
+
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@ProgHist" />
+<meta name="twitter:title" content="Downloading Web Pages with Python" />
+
+
+    <meta name="twitter:description" content="This lesson introduces Uniform Resource Locators (URLs) and explains how to use Python to download and save the contents of a web page to your local hard drive." />
+
+
+<meta name="twitter:image" content="https://programminghistorian.org/gallery/working-with-web-pages.png" />
+
+  
+
+  <link rel="shortcut icon" href="/images/favicons/en_favicon.ico" type="image/x-icon">
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
+  <link href='/feed.xml' rel='alternate' type='application/atom+xml'>
+
+  <title>Downloading Web Pages with Python | Programming Historian</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Crete+Round|Open+Sans|Quattrocento|Roboto|Roboto+Condensed" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" media="all">
+  <link rel="stylesheet" href="/css/github.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/js/ext_links.js"></script>
+  <script type="text/javascript" src="/js/header_links.js"></script>
+
+  
+  
+
+  <script src="/js/bootstrap-4-navbar.js"></script>
+
+</head>
+
+  <body>
+    <main>
+      <div class="hide-screen">
+        
+        
+
+<div class="alert alert-success sitewide-alert text-center">
+  <h2><a href="https://www.patreon.com/theprogramminghistorian" class="alert-link">Donate to <i>Programming Historian</i> today!</a></h2>
+
+</div>
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="hide-screen navbar navbar-toggleable-md navbar-dark bg-dark"
+  style="background-color: #444444" role="navigation">
+  <!--<div class="container">-->
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+    data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Programming
+    Historian</a>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="nav navbar-nav ml-auto w-100 justify-content-end" role="menubar">
+      <li class="nav-item dropdown mobile-drop" role="menu">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" role="button">
+          About
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/en/about"
+            role="menuitem">About PH</a>
+          <a class="dropdown-item" href="/en/project-team"
+            role="menuitem">Project Team</a>
+          <a class="dropdown-item" href="/en/research"
+            role="menuitem">Research</a>
+          <a class="dropdown-item" href="/en/privacy-policy"
+            role="menuitem">Privacy Policy</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown mobile-drop" role="menu">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" role="button">
+          Contribute
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+          <a class="dropdown-item"
+            href="/en/contribute"
+            role="menuitem">Overview</a>
+          <a class="dropdown-item"
+            href="/en/feedback"
+            role="menuitem">Report a bug</a>
+          <a class="dropdown-item" href="/en/reviewer-guidelines"
+            role="menuitem">Reviewer Guidelines</a>
+          <a class="dropdown-item" href="/en/author-guidelines"
+            role="menuitem">Author Guidelines</a>
+          <a class="dropdown-item"
+            href="/en/translator-guidelines"
+            role="menuitem">Translator Guidelines</a>
+          <a class="dropdown-item" href="/en/editor-guidelines"
+            role="menuitem">Editor Guidelines</a>
+          <a class="dropdown-item"
+            href="https://github.com/programminghistorian/jekyll/wiki/Making-Technical-Contributions"
+            role="menuitem">Technical Contributions</a>
+        </div>
+      </li>
+
+      <li class="nav-item" role="menuitem">
+        <a class="nav-link" href="/en/lessons"
+          role="link">Lessons</a>
+      </li>
+
+      <li class="nav-item dropdown mobile-drop" role="menu">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" role="button">
+          Support Us
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+        <a class="dropdown-item" href="/en/ipp"
+          role="menuitem">Institutional Partnership Programme</a>
+        <a class="dropdown-item" href="/en/individual"
+          role="menuitem">Individual Supporters</a>
+        <a class="dropdown-item" href="/en/supporters"
+          role="menuitem">Our Supporters</a>
+      </li>
+      
+      <li class="nav-item" role="menuitem">
+        <a class="nav-link" href="/blog"
+          role="link">Blog</a>
+      </li>
+     
+      <li class="nav-item" role="menuitem">
+      <a class="nav-link" href="/vacancies"
+         role="link">Vacancies</a>
+      </li>
+
+      
+      
+
+      <li class="nav-item" role="menu">
+        <div class="btn-group" role="menuitem" aria-label="Language selector">
+          
+
+          
+          <a class="btn btn-secondary nav-link active disabled" role="button"
+            aria-pressed="true">en</a>
+          
+          
+
+          
+
+          
+
+          
+          <a class="btn btn-secondary nav-link" role="button"
+            href="/es/lecciones/trabajar-con-paginas-web">es</a>
+          
+          
+          
+
+          
+
+          
+
+          
+          <a class="btn btn-secondary nav-link" role="button"
+            href="/fr/lecons/telecharger-des-pages-web-avec-python">fr</a>
+          
+          
+          
+
+          
+
+          
+
+          
+          <a class="btn btn-secondary nav-link" role="button"
+            href="/pt/licoes/download-paginas-web-python">pt</a>
+          
+          
+          
+        </div>
+      </li>
+      <li class="nav-item" id="low-contrast-button" role="menu">
+        <div class="theme-switch-wrapper">
+          <label class="theme-switch" role="menuitem">
+            <input type="checkbox" role="menuitemcheckbox">
+            <span class="slider round">
+              <span class="visually-hidden">night mode toggle</span>
+            </span>
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!--</div>-->
+</nav>
+
+<nav class="hide-print print-header navbar-brand">Programming Historian </nav>
+
+<script>
+  const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+  function setTheme(currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    sessionStorage.setItem('theme', currentTheme);
+  }
+  
+  let theme = sessionStorage.getItem('theme') === null ? 'day' : sessionStorage.getItem('theme');
+
+  toggleSwitch.checked = theme === 'night' ? true : false;
+
+  setTheme(theme);
+  
+  toggleSwitch.addEventListener('change', function(e){
+    setTheme(e.target.checked ? 'night': 'day')
+  }, false);
+
+</script>
+
+      </div>
+      <div class="hide-print print-header">
+        <h1>Programming Historian</h1>
+      </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+
+  <div class="container-fluid">
+
+    <div class="container expanded">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="header-image rounded">
+            <img src="/gallery/working-with-web-pages.png" alt="A tall man next to a short woman">
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="header-title">
+            <h1><a href="/en/lessons/working-with-web-pages">Downloading Web Pages with Python</a></h1>
+          </div>
+
+          <div class="header-author">
+            <h2>
+
+
+
+William J. Turkel and Adam Crymble</h2>
+          </div>
+
+          <div class="header-abstract">
+            <p>This lesson introduces Uniform Resource Locators (URLs) and explains how to use Python to download and save the contents of a web page to your local hard drive.</p>
+
+          </div>
+
+          <div class="container expanded">
+            <div class="row d-flex justify-content-left">
+              
+              <div class="peer-review mr-5">
+                <p>
+                  
+                    <i class="fas fa-user-check"></i> Peer-reviewed
+                    
+                </p>
+              </div>
+              
+              <div class="open-license mr-5">
+                <p><a href="https://creativecommons.org/licenses/by/4.0/deed.en"><i class="fas fa-lock-open"></i> CC-BY
+                    4.0</a></p>
+              </div>
+              <div class="donate mr-5">
+                <p><a
+                    href="/en/individual"><i
+                      class="fas fa-credit-card"></i> Support PH</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="container-fluid header-helpers">
+    <div class="container expanded">
+      
+      
+      <div class="col-6 p-0 m-0">
+        
+          <div class="d-flex flex-wrap flex-md-row flex-column justify-content-between">
+            <div>
+              <h3>edited by</h3>
+              <ul>
+                
+                
+                <li>Miriam Posner</li>
+                
+              </ul>
+            </div>
+
+            <div>
+              <h3>reviewed by</h3>
+              <ul>
+                
+                
+                <li>Jim Clifford
+                </li>
+                
+                
+                <li>Frederik Elwert
+                </li>
+                
+              </ul>
+            </div>
+
+            
+
+            
+
+            
+
+            
+          </div>
+        </div>
+      </div> <!-- end row -->
+    </div>
+
+    <div class="container-fluid header-bottom">
+      <div class="container expanded">
+        <div class="d-flex flex-wrap flex-md-row flex-column justify-content-between">
+          <div class="metarow">
+            <h4>published</h4> | 2012-07-17
+          </div>
+          
+          
+          <div class="metarow">
+            <h4>modified</h4> | <span
+              id="modified-date">2012-07-17</span>
+          </div>
+          
+          
+          <div class="metarow">
+            <h4>difficulty</h4> | 
+
+Medium
+
+          </div>
+          
+          <div class="metarow">
+           <p> <img src="/images/doi_icon.jpg" alt="DOI id icon" width="16px" style="max-width:16px;display:inline;"> https://doi.org/10.46430/phen0021</p>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+</header>
+
+<div class="container">
+
+  
+  
+<div class="alert alert-success hide-screen"><h2 id="donate-today">Donate today!</h2>
+<p>Great Open Access tutorials cost money to produce. Join the growing number of people <a href="https://www.patreon.com/theprogramminghistorian">supporting <em>Programming Historian</em></a> so we can continue to share knowledge free of charge.</p>
+</div>
+
+  
+
+  
+
+  <div class="alert alert-warning">
+    <!-- Banner pointing to the original and other translations of this lesson when they exist -->
+    Available in:
+
+    <a href="/en/lessons/working-with-web-pages"> EN
+    </a> (original) |
+
+    
+
+    <a href="/pt/licoes/download-paginas-web-python"> PT </a>
+     | 
+
+    
+
+    <a href="/fr/lecons/telecharger-des-pages-web-avec-python"> FR </a>
+     | 
+
+    
+
+    <a href="/es/lecciones/trabajar-con-paginas-web"> ES </a>
+    
+
+    
+  </div>
+  
+
+  <!-- Check if lesson is part of a sequence -->
+  
+    <div class="series-warning alert alert-info">
+    This lesson is part of a series of 15 lessons - You are on lesson 5  
+      
+        | <a href="code-reuse-and-modularity"> previous lesson</a>
+      
+      
+        | <a href="manipulating-strings-in-python"> next lesson</a>
+      
+    </div>
+  
+
+  <!-- Check if lesson is the result of an institutional partnership -->
+  <!-- The logic is essentially the same as that of, for example, lessons which are part of a sequence -->
+  <!-- If the page contains the 'lesson-partners' YAML field -->
+  
+
+
+  
+
+  
+
+
+
+
+  <div class="content">
+    
+<h2 class="no_toc" id="contents">Contents</h2>
+
+<ul id="markdown-toc">
+  <li><a href="#lesson-goals" id="markdown-toc-lesson-goals">Lesson Goals</a>    <ul>
+      <li><a href="#about-urls" id="markdown-toc-about-urls">About URLs</a></li>
+    </ul>
+  </li>
+  <li><a href="#opening-urls-with-python" id="markdown-toc-opening-urls-with-python">Opening URLs with Python</a></li>
+  <li><a href="#saving-a-local-copy-of-a-web-page" id="markdown-toc-saving-a-local-copy-of-a-web-page">Saving a Local Copy of a Web Page</a></li>
+  <li><a href="#suggested-readings" id="markdown-toc-suggested-readings">Suggested Readings</a>    <ul>
+      <li><a href="#code-syncing" id="markdown-toc-code-syncing">Code Syncing</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>This lesson introduces <em>Uniform Resource Locators</em> (URLs) and explains how
+to use Python to download and save the contents of a web page to your
+local hard drive.</p>
+
+<h3 id="about-urls">About URLs</h3>
+
+<p>A <em>web page</em> is a file that is stored on another computer, a machine known
+as a <em>web server</em>. When you “go to” a web page, what is actually happening
+is that your computer, (the <em>client</em>) sends a request to the server (the
+<em>host</em>) out over the network, and the server replies by sending a copy of
+the page back to your machine. One way to get to a web page with your
+browser is to follow a link from somewhere else. You also have the
+ability, of course, to paste or type a Uniform Resource Locator (URL)
+directly into your browser. The URL tells your browser where to find an
+online resource by specifying the server, directory and name of the file
+to be retrieved, as well as the kind of <em>protocol</em> that the server and
+your browser will agree to use while exchanging information (like HTTP,
+the <em>Hypertext Transfer Protocol</em>). The basic structure of a URL is</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>protocol://host:port/path?query
+</code></pre></div></div>
+
+<p>Let’s look at a few examples.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://oldbaileyonline.org
+</code></pre></div></div>
+
+<p>The most basic kind of URL simply specifies the protocol and host. If
+you give this URL to your browser, it will return the main page of The
+<a href="http://www.oldbaileyonline.org/">Old Bailey Online</a> website. The default assumption is that the main
+page in a given directory will be named index, usually <code class="language-plaintext highlighter-rouge">index.html</code>.</p>
+
+<p>The URL can also include an optional <em>port number</em>. Without getting into
+too much detail, the network protocol that underlies the
+exchange of information on the Internet allows computers to connect in
+different ways. Port numbers are used to distinguish these different
+kinds of connection. Since the default port for HTTP is 80, the
+following URL is equivalent to the previous one.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://oldbaileyonline.org:80
+</code></pre></div></div>
+
+<p>As you know, there are usually many web pages on a given website. These
+are stored in directories on the server, and you can specify the path to
+a particular page. The “About” page for <em>The Old Bailey Online</em> has the
+following URL.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://oldbaileyonline.org/static/Project.jsp
+</code></pre></div></div>
+
+<p>Finally, some web pages allow you to enter queries. <em>The Old Bailey
+Online</em> website, for example, is laid out in such a way that you can
+request a particular page within it by using a <em>query string</em>. The
+following URL will take you to a search results page for criminal record
+trials containing the word “arsenic”.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://www.oldbaileyonline.org/search.jsp?form=searchHomePage<span class="err">&amp;</span>_divs_fulltext=arsenic<span class="err">&amp;</span>kwparse=and<span class="err">&amp;</span>_persNames_surname=<span class="err">&amp;</span>_persNames_given=<span class="err">&amp;</span>_persNames_alias=<span class="err">&amp;</span>_offences_offenceCategory_offenceSubcategory=<span class="err">&amp;</span>_verdicts_verdictCategory_verdictSubcategory=<span class="err">&amp;</span>_punishments_punishmentCategory_punishmentSubcategory=<span class="err">&amp;</span>_divs_div0Type_div1Type=<span class="err">&amp;</span>fromMonth=<span class="err">&amp;</span>fromYear=<span class="err">&amp;</span>toMonth=<span class="err">&amp;</span>toYear=<span class="err">&amp;</span>ref=<span class="err">&amp;</span>submit.x=0<span class="err">&amp;</span>submit.y=0
+</code></pre></div></div>
+
+<p>The snippet after the “?” represents the query. You can learn more about
+building queries in <a href="/lessons/downloading-multiple-records-using-query-strings">Downloading Multiple Records Using Query
+Strings</a>.</p>
+
+<h2 id="opening-urls-with-python">Opening URLs with Python</h2>
+
+<p>As a digital historian you will often find yourself wanting to use data
+held in scholarly databases online. To get this data you could open URLs
+one at a time and copy and paste their contents to a text file, or you
+can use Python to automatically harvest and process webpages. To do
+this, you’re going to need to be able to open URLs with your own
+programs. The Python language includes a number of standard ways to do
+this.</p>
+
+<p>As an example, let’s work with the kind of file that you might encounter
+while doing historical research. Say you’re interested in race relations
+in eighteenth century Britain. ‘The Old Bailey Online’ (OBO) is a rich resource that provides trial transcripts from
+1674 to 1913 and is one good place to seek sources.</p>
+
+<figure>
+    <img src="/images/working-with-web-pages/old-bailey.png" alt="The Old Bailey Online Homepage" />
+    <figcaption>
+      <p>The Old Bailey Online Homepage</p>
+
+    </figcaption>
+  </figure>
+
+<!-- <figure>
+    <img src="/images/working-with-web-pages/old-bailey.png" alt="The Old Bailey Online Homepage">
+<figcaption>
+    <p>The Old Bailey Online Homepage</p>
+
+</figcaption>
+</figure> -->
+
+<p>For this example, we will be using the trial transcript of Benjamin
+Bowsey, a “black moor” who was convicted of breaking the peace during
+the <a href="http://en.wikipedia.org/wiki/Gordon_Riots">Gordon Riots</a> of 1780. The URL for the entry is</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://www.oldbaileyonline.org/browse.jsp?id=t17800628-33<span class="err">&amp;</span>div=t17800628-33
+</code></pre></div></div>
+
+<p>By studying the URL we can learn a few things. First, The OBO is written
+in JSP (<em>JavaServer Pages</em>, a web programming language which outputs
+HTML), and it’s possible to retrieve individual trial entries by making
+use of the query string. Each is apparently given a unique ID number
+(<em>id=t</em> in the URL), built from the date of the trial session in the
+format (<em>YYYYMMDD</em>) and the trial number from within that court session,
+in this case: <em>33</em>. If you change the two instances of <code class="language-plaintext highlighter-rouge">33</code> to <code class="language-plaintext highlighter-rouge">34</code> in
+your browser and press Enter, you should be taken to the next trial.
+Unfortunately, not all websites have such readable and reliable URLs.</p>
+
+<figure>
+    <img src="/images/working-with-web-pages/bowsey-trial-page.png" alt="Trial Transcript Page of Benjamin Bowsey, 1780" />
+    <figcaption>
+      <p>Trial Transcript Page of Benjamin Bowsey, 1780</p>
+
+    </figcaption>
+  </figure>
+
+<!-- <figure>
+    <img src="/images/working-with-web-pages/bowsey-trial-page.png" alt="Trial Transcript Page of Benjamin Bowsey, 1780">
+<figcaption>
+    <p>Trial Transcript Page of Benjamin Bowsey, 1780</p>
+
+</figcaption>
+</figure> -->
+
+<p>Spend a few minutes looking at Benjamin Bowsey’s trial page. Here we are
+not so much interested in what the transcript says, but what features
+the page has. Notice the <a href="http://www.oldbaileyonline.org/browse.jsp?foo=bar&amp;path=sessionsPapers/17800628.xml&amp;div=t17800628-33&amp;xml=yes">View as XML</a> link at the bottom that takes
+you to a heavily marked up version of the text which may be useful to
+certain types of research. You can also look at a <a href="http://www.oldbaileyonline.org/images.jsp?doc=178006280084">scan of the original
+document</a>, which was transcribed to make this resource.</p>
+
+<p>Now let’s try opening the page using Python. Copy the following program
+into Komodo Edit and save it as <code class="language-plaintext highlighter-rouge">open-webpage.py</code>. When you execute the
+program, it will <code class="language-plaintext highlighter-rouge">open</code> the trial file, <code class="language-plaintext highlighter-rouge">read</code> its contents into a Python
+string called webContent and then <code class="language-plaintext highlighter-rouge">print</code> the first three hundred
+characters of the string to the “Command Output” pane. Use the
+<code class="language-plaintext highlighter-rouge">View -&gt; Web Developer -&gt; View Page Source</code> command in Firefox to verify
+that the HTML source of the page is the same as the source that your
+program retrieved. Each browser has a different shortcut key to open the
+page source. In Firefox on PC it is <code class="language-plaintext highlighter-rouge">CTRL+u</code>. If you cannot find it on
+your browser, try using a search engine to find where it is. (See the
+Python library reference to learn more about <a href="https://docs.python.org/3/library/urllib.html?highlight=urllib">urllib</a>.)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># open-webpage.py
+</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span><span class="p">,</span> <span class="n">urllib</span><span class="p">.</span><span class="n">error</span><span class="p">,</span> <span class="n">urllib</span><span class="p">.</span><span class="n">parse</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/browse.jsp?id=t17800628-33&amp;div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">webContent</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">read</span><span class="p">().</span><span class="n">decode</span><span class="p">(</span><span class="s">'UTF-8'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">webContent</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">300</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>These five lines of code achieve an awful lot very quickly. Let us take
+a moment to make sure that everything is clear and that you can
+recognize the building blocks that allow us to make this program do what
+we want it to do.</p>
+
+<p><em>url</em>, <em>response</em>, and <em>webContent</em> are all variables that we have named
+ourselves.</p>
+
+<p><em>url</em> holds the URL of the web page that we want to download. In this
+case, it is the trial of Benjamin Bowsey.</p>
+
+<p>On the following line, we call the function <code class="language-plaintext highlighter-rouge">urlopen</code>, which is stored in
+a Python module named <code class="language-plaintext highlighter-rouge">urllib.py</code>, and we have asked that function to
+open the website found at the URL we just specified. We then saved the
+result of that process into a variable named <em>response</em>. That variable now
+contains an open version of the requested website.</p>
+
+<p>We then use the <code class="language-plaintext highlighter-rouge">read</code> method, which we used earlier, to copy the contents
+of that open webpage into a new variable named <em>webContent</em>.</p>
+
+<p>Make sure you can pick out the variables (there are 3 of them), the
+modules (1), the methods (2), and the parameters (1) before you move on.</p>
+
+<p>In the resulting output, you will notice a little bit of HTML markup:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xml:lang=</span><span class="s">"en"</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+	<span class="nt">&lt;title&gt;</span>Browse - Central Criminal Court<span class="nt">&lt;/title&gt;</span>
+	<span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"content-type"</span> <span class="na">content=</span>
+</code></pre></div></div>
+
+<p>The content of the trial itself is much further down the page. What we
+see here is the HTML code at the top of the document. This is not quite
+what we need for historical research, but don’t worry; you
+will soon learn how to remove that excess markup and get the content you are after.</p>
+
+<h2 id="saving-a-local-copy-of-a-web-page">Saving a Local Copy of a Web Page</h2>
+
+<p>Given what you already know about writing to files, it is quite easy to
+modify the above program so that it writes the contents of the
+<em>webContent</em> string to a local file on our computer rather than to the
+“Command Output” pane. Copy the following program into Komodo Edit, save
+it as <code class="language-plaintext highlighter-rouge">save-webpage.py</code> and execute it. Using the <code class="language-plaintext highlighter-rouge">File -&gt; Open File</code>
+command in Firefox, open the file on your hard drive that it creates
+(<code class="language-plaintext highlighter-rouge">obo-t17800628-33.html</code>) to confirm that your saved copy is the same as
+the online copy.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># save-webpage.py
+</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span><span class="p">,</span> <span class="n">urllib</span><span class="p">.</span><span class="n">error</span><span class="p">,</span> <span class="n">urllib</span><span class="p">.</span><span class="n">parse</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/browse.jsp?id=t17800628-33&amp;div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">webContent</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">read</span><span class="p">().</span><span class="n">decode</span><span class="p">(</span><span class="s">'UTF-8'</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'obo-t17800628-33.html'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+<span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">webContent</span><span class="p">)</span>
+<span class="n">f</span><span class="p">.</span><span class="n">close</span>
+</code></pre></div></div>
+
+<p>So, if you can save a single file this easily, could you write a program
+to download a bunch of files? Could you step through trial IDs, for
+example, and make your own copies of a whole bunch of them? Yep. You can learn
+how to do that in <a href="/lessons/downloading-multiple-records-using-query-strings">Downloading Multiple Files using Query Strings</a>,
+which we recommend after you have completed the introductory lessons in this series.</p>
+
+<h2 id="suggested-readings">Suggested Readings</h2>
+
+<ul>
+  <li>Lutz, Mark. “Ch. 4: Introducing Python Object Types”, <em>Learning
+Python</em> (O’Reilly, 1999).</li>
+</ul>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your “programming-historian” directory. At
+the end of each lesson you can download the “programming-historian” zip
+file to make sure you have the correct code.</p>
+
+<ul>
+  <li>programming-historian-1 (<a href="/assets/python-lessons1.zip">zip</a>)</li>
+</ul>
+
+
+  </div>
+
+ 
+
+
+
+  
+
+
+
+<div class="author-info">
+    <h2 class="author-name">About the authors</h2>
+</div>
+<div class="author-description">
+  
+     
+     
+         <p>William J. Turkel is Professor of History at the
+University of Western Ontario.
+<p>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+     
+     
+     
+     
+     
+     
+         <p>Adam Crymble, University College London.
+<p>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+</div>
+
+
+  <div class="citation-info">
+    
+    
+    
+
+    <h2 class="suggested-citation-header">Suggested Citation</h2>
+    <div class="suggested-citation-text">
+      <p class="suggested-citation-text">
+
+
+
+William J. Turkel and Adam Crymble,
+        "Downloading Web Pages with Python,"
+        <em>Programming Historian</em> 1 (2012),
+        https://doi.org/10.46430/phen0021.</p>
+    </div>
+  </div>
+
+  
+  
+<div class="alert alert-success hide-screen"><h2 id="donate-today">Donate today!</h2>
+<p>Great Open Access tutorials cost money to produce. Join the growing number of people <a href="https://www.patreon.com/theprogramminghistorian">supporting <em>Programming Historian</em></a> so we can continue to share knowledge free of charge.</p>
+</div>
+
+  
+
+</div>
+</div>
+
+<script>
+  (function () {
+    var githubAPI = "https://api.github.com/repos/programminghistorian/jekyll/commits";
+    $.getJSON(githubAPI, {
+      path: "en/lessons/working-with-web-pages.md"
+    })
+      .done(function (data) {
+        var date = new Date(data[0].commit.author.date);
+        var formatted_date = new Intl.DateTimeFormat('sv').format(date)
+        $("#modified-date").text(formatted_date);
+      });
+  })();
+</script>
+
+      
+
+<footer role="contentinfo" style="background-color: #444444">
+
+
+<div class="d-flex flex-wrap justify-content-center footer-head">
+  <p>The <em>Programming Historian</em> (ISSN: 2397-2068) is released under a <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC-BY</a> license.</p>
+<p>This project is administered by ProgHist Ltd, Charity Number <a href="https://register-of-charities.charitycommission.gov.uk/charity-search/-/charity-details/5181272/charity-overview">1195875</a> and Company Number <a href="https://find-and-update.company-information.service.gov.uk/company/12192946">12192946</a>.</p>
+
+</div>
+
+<div class="d-flex flex-wrap justify-content-around">
+  <div class="mx-4">
+     
+    <strong>
+      <p>
+        <a href="/">ISSN 2397-2068 (English)</a>
+      </p>
+      </strong>  
+      <p>
+        <a href="/es">ISSN 2517-5769 (Spanish)</a>
+      </p>
+        
+      <p>
+        <a href="/fr">ISSN 2631-9462 (French)</a>
+      </p>
+        
+      <p>
+        <a href="/pt">ISSN 2753-9296 (Portuguese)</a>
+      </p>
+       
+  </div>
+  <div class="mx-4">
+    <i class="fab fa-github" aria-hidden="true"></i>
+    <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub</a>
+  </div>
+
+  <div class="mx-4">
+  <i class="fa fa-calendar" aria-hidden="true"></i>
+    <a href="https://github.com/programminghistorian/jekyll/commits/gh-pages">Site last updated 21 October 2022</a>
+  </div>
+ 
+ <div class="mx-4">
+  <i class="fas fa-rss" aria-hidden="true"></i>
+  <a href="https://programminghistorian.org/feed.xml">RSS feed subscriptions</a>
+  </div>
+ 
+  <div class="mx-4">
+  <i class="fa fa-history" aria-hidden="true"></i>
+  <a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/en/lessons/working-with-web-pages.md">See page history</a>
+  </div>
+
+  <div class="mx-4">
+  <i class="fa fa-bolt" aria-hidden="true"></i>
+  <a href="/en/feedback">Make a suggestion</a>
+  </div>
+
+  <div class="mx-4">
+  <i class="fa fa-chain-broken" aria-hidden="true"></i>
+  <a href="/en/lesson-retirement-policy">Lesson retirement policy</a>
+  </div>
+ 
+  <div class="mx-4">
+  <i class="fa fa-globe" aria-hidden="true"></i>
+  <a href="/translation-concordance">Translation concordance</a>
+  </div>
+ 
+  </div>
+
+</footer>
+
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+    </main>
+  </body>
+
+</html>
