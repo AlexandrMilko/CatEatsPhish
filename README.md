@@ -5,6 +5,7 @@ This project was done by my friends and me on SuperVisionHack 2022.
 OUR TEAM:
 - @shurikandrew
 - @mkdir28
+- @Kr1us
 - @AlexandrMilko
 
 INSTALLATION: pip install -r requirements.txt
