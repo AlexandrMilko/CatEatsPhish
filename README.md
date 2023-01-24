@@ -1,7 +1,7 @@
 # CatEatsPhish
 Implementation of different technics to determine if a website is phishing or not.
 
-This project was done by my friends and me on SuperVisionHack 2022.
+This project was done by my friends(@shurikandrew) and me on SuperVisionHack 2022.
 
 INSTALLATION: pip install -r requirements.txt
 
